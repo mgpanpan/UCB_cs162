@@ -2,9 +2,18 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-int main() {
+int main(void)
+{
     struct rlimit lim;
-    printf("stack size: %d\n",  0);
-    printf("process limit: %d\n", 0);
-    printf("max file descriptors: %d\n", 0);
+    
+    getrlimit(RLIMIT_STACK, &lim);
+    printf("stack size: %d\n", (int) lim.rlim_cur);
+    
+    getrlimit(RLIMIT_NPROC, &lim);
+    printf("process limit: %d\n", (int) lim.rlim_cur);
+    
+    getrlimit(RLIMIT_NOFILE, &lim);
+    printf("max file descriptors: %d\n", (int) lim.rlim_cur);
+    
+    return 0;
 }
